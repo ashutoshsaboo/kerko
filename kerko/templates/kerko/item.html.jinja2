@@ -69,6 +69,16 @@
                     {%- elif item.attachments|length == 1 %}
                         <div class="{% block attachment_link_wrapper_classes %}d-inline-block d-print-none mb-2{% endblock %}">
                             <a class="{% block attachment_link_btn_classes %}btn btn-primary{% endblock %}" href="{{ url_for('kerko.item_attachment_download', item_id=item.id, attachment_id=item.attachments[0]['id'], attachment_filename=item.attachments[0]['filename']) }}"{% if config.KERKO_DOWNLOAD_ATTACHMENT_NEW_WINDOW %} target="_blank"{% endif %} {{ title_aria_label(_('Read \'{}\'').format(item.attachments[0]['filename']|escape)) }}>
+                                <span class="fas fa-file" aria-hidden="true"></span> {{ _('Read') }}
+                            </a>
+                        </div>
+                    {%- endif %}
+                    {%- if 'drive.google.com' in item.data.archive %}
+                        <div class="{% block notes_link_wrapper_classes %}d-inline-block d-print-none mb-2{% endblock %}">
+                            {%- set decoded_url = '{"ids":["' + item.data.archive.split('?')[0].split('/')[-2] + '"],"action":"open"}' %}
+                            {%- set encoded_url = decoded_url | urlencode %}
+                            {%- set notes_url = "https://web.kamihq.com/web/viewer.html?state=" + encoded_url %}
+                            <a class="{% block notes_link_btn_classes %}btn btn-primary{% endblock %}" target="_blank" href={{notes_url}}>
                                 <span class="fas fa-file" aria-hidden="true"></span> {{ _('Read document') }}
                             </a>
                         </div>
@@ -95,6 +105,13 @@
                                     {%- endfor %}
                                 </div>
                             </div>
+                        </div>
+                    {%- endif %}
+                    {%- if 'drive.google.com' in item.data.archiveLocation %}
+                        <div class="{% block download_pdf_link_wrapper_classes %}d-inline-block d-print-none mb-2{% endblock %}">
+                            <a class="{% block download_pdf_link_btn_classes %}btn btn-primary{% endblock %}" href="{{ item.data.archiveLocation }}">
+                                <span class="fas fa-file" aria-hidden="true"></span> {{ _('Download') }}
+                            </a>
                         </div>
                     {%- endif %}
                 </div>
