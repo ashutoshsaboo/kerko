@@ -9,7 +9,7 @@ import pathlib
 from flask import Blueprint
 from flask_babelex import Domain
 
-__version__ = '0.6'
+__version__ = '0.6.1'
 
 babel_domain = Domain(
     pathlib.Path(__file__).parent / 'translations',
